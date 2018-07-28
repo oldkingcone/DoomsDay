@@ -1,3 +1,0 @@
-docker
-docker-py
-docker-ipsec
