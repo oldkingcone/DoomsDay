@@ -25,6 +25,7 @@ c = database.cursor()
 #creating the junk filled and falsely encrypted database(make it mimic a glob)
 #@todo database is complete, just missing the email address generation.
 #@todo make a relational database, add some more hashes maybe sha1 and faked access times.
+#@todo, alter the join times to reflect at least a month back in time.
 c.execute('''CREATE TABLE IF NOT EXISTS Site_Info(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, jointime TIMESTAMP DEFAULT 
             CURRENT_TIMESTAMP NOT NULL, username TEXT, email TEXT, password TEXT)''')
 #@todo, ok so this works. Need to find a way to populate legit looking IP address's
