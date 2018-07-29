@@ -1,5 +1,4 @@
-Flask==0.10.1
 Docker==2.4.2
 Docker-ipsec
-twisted
+twisted>=18.7.0
 names
