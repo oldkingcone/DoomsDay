@@ -33,8 +33,6 @@ def name_generate():
     namer = set()
     for i in range(100):
         name = names.get_full_name()
-        namer.add(name)
-        print(name)
         database.commit()
         style = name.encode()
         hashed_pass = hashlib.sha512(style).hexdigest()
