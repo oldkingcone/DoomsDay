@@ -30,7 +30,7 @@ sql_stmt = str(sql_stmt)
 
 def name_generate():
     digest_name = "INSERT INTO Site_Info(username, password) VALUES ('%s', '%s')"
-    namer = set()
+    #@todo, need to make this generate "valid" looking email addresses, so this database looks as legit as possible.
     for i in range(100):
         name = names.get_full_name()
         database.commit()
