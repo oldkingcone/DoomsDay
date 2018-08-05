@@ -37,21 +37,40 @@ c.execute('''CREATE TABLE IF NOT EXISTS Access_times(id INTEGER PRIMARY KEY AUTO
 sql_stmt = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
 sql_stmt = str(sql_stmt)
 
-def name_generate():
-    digest_name = "INSERT INTO Site_Info(username, password) VALUES ('%s', '%s')"
+def name_generate(num=1):
+    digest_name = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
     namer = set()
-    for i in range(100):
+    for i in range(num):
         name = names.get_full_name()
         namer.add(name)
-        print(name)
+        ename = name.lower()
+        ename = ename.split(' ')
+        email = email_generate(ename[0], ename[1])
+        print(name, email)
         database.commit()
         style = name.encode()
         hashed_pass = hashlib.sha512(style).hexdigest()
-        c.execute(digest_name % (name, hashed_pass))
+        c.execute(digest_name % (name, email, hashed_pass))
         database.commit()
 
 
-name_generate()
+def email_generate(first, last):
+    domains = ['sbcglobal.net', 'live.com', 'comcast.net', 'yahoo.com', 'gmail.com', 'icloud.com', 'gmx.com', 'lavabit.com',
+               'charter.net', 'yandes.com', 'rocketmail.com', 'cox.net']
+    numbers = randint(0,3)
+    i = 0
+    n = ''
+    while i < numbers:
+        n += str(randint(0, 9))
+        i +=1
+    if numbers > 0 and randint(0, 10) % numbers == 1:
+        sep = '.'
+    else:
+        sep = ''
+    return first+sep+last+str(n)+'@'+domains[randint(0, len(domains)-1)]
+
+
+name_generate(100)
 c.close()
 
 
