@@ -16,6 +16,13 @@ except ImportError as e:
         "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the app again. \n {}".format(e))
     import sys
     sys.exit(1)
+try:
+    print("[**] Making falsified www root directory [**]")
+    os.system("mkdir ./wwwroot")
+    os.system("cd ./wwwroot")
+except FileExistsError:
+    print("[!!] Folder Exists, skipping for now [!!]")
+    pass
 
 os.system("mkdir ./wwwroot")
 os.system("cd ./wwwroot")
@@ -39,9 +46,33 @@ sql_stmt = str(sql_stmt)
 
 def name_generate(num=1):
     digest_name = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
+
+
+def email_generate(first, last):
+    domains = ['sbcglobal.net', 'live.com', 'comcast.net', 'yahoo.com', 'gmail.com', 'icloud.com', 'gmx.com',
+               'lavabit.com', 'charter.net', 'yandes.com', 'rocketmail.com', 'cox.net']
+    numbers = randint(0,3)
+    i = 0
+    n = ''
+    while i < numbers:
+        n += str(randint(0, 9))
+        i +=1
+    if numbers > 0 and randint(0, 10) % numbers == 1:
+        sep = '.'
+    else:
+        sep = ''
+    return first+sep+last+str(n)+'@'+domains[randint(0, len(domains)-1)]
+
+
+def name_generate():
+    digest_name = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
+    accessed_table = "INSERT INTO Access_times(login_ip) VALUES ('%s')"
     namer = set()
     for i in range(num):
         name = names.get_full_name()
+        ename = name.lower()
+        ename = ename.split(' ')
+        email = email_generate(ename[0], ename[1])
         namer.add(name)
         ename = name.lower()
         ename = ename.split(' ')
@@ -51,6 +82,7 @@ def name_generate(num=1):
         style = name.encode()
         hashed_pass = hashlib.sha512(style).hexdigest()
         c.execute(digest_name % (name, email, hashed_pass))
+        c.execute(accessed_table % (lice))
         database.commit()
 
 
