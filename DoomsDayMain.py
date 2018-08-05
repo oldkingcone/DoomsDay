@@ -17,6 +17,8 @@ except ImportError as e:
         "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the app again. \n {}".format(e))
     import sys
     sys.exit(1)
+#-----------------------------------------------------------------------------------------------------------------------------
+# will make this more interactive, may use a class here.    
 domains_list = ["gmail.com",
                 "yahoo.com",
                 "yandex.com",
@@ -40,7 +42,10 @@ words = ["barbie",
          "diamond",
          "leet"
          ]
+#----------------------------------------------------------------------------------------------------------------------------
+os.system('clear')
 print("[!!] Using pre-seeded word list: \n{} [!!]".format(words))
+sleep(3)
 try:
     print("[**] Making falsified www root directory [**]")
     os.system("mkdir ./wwwroot")
