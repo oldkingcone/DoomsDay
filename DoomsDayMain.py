@@ -17,13 +17,10 @@ except ImportError as e:
         "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the app again. \n {}".format(e))
     import sys
     sys.exit(1)
-# ok, so tailor to your companies needs, but this should be a template.
-# more to follow on this, trying to determine the best way to impliment this.
-#@todo, impliment a streamlined way to generate false emails, that look rather legit.
-domains_list = ["gmail.com", 
-                "yahoo.com", 
-                "yandex.com", 
-                "protonmail.com", 
+domains_list = ["gmail.com",
+                "yahoo.com",
+                "yandex.com",
+                "protonmail.com",
                 "hotmail.com",
                 "1and1.com",
                 "mail.com",
@@ -36,29 +33,35 @@ domains_list = ["gmail.com",
                 "hushmail.com",
                 "fastmail.com",
                 "gmxmail.com"]
-
-# again, tailor to suit your needs, but this should be a good start.
+print("[!!] Using Domain list for email generation:\n {} [**]".format(domains_list))
+sleep(3)
 words = ["barbie",
          "rocker",
          "diamond",
          "leet"
          ]
+print("[!!] Using pre-seeded word list: \n{} [!!]".format(words))
+try:
+    print("[**] Making falsified www root directory [**]")
+    os.system("mkdir ./wwwroot")
+    os.system("cd ./wwwroot")
+except FileExistsError:
+    print("[!!] Folder Exists, skipping for now [!!]")
+    pass
 
-os.system("mkdir ./wwwroot")
-os.system("cd ./wwwroot")
-
-database = sqlite3.connect('admin_databse.sqlite')
+database = sqlite3.connect('./wwwroot/admin_databse.sqlite')
 c = database.cursor()
-#creating the junk filled and falsely encrypted database(make it mimic a glob) - DONE
+
 #@todo database is complete, just missing the email address generation.
 #@todo make a relational database, add some more hashes maybe sha1 and faked access times.
-#@todo, ok so this works. Need to find a way to populate legit looking IP address's - DONE
 c.execute('''CREATE TABLE IF NOT EXISTS Site_Info(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
                 username TEXT, email TEXT, password TEXT)''')
 c.execute('''CREATE TABLE IF NOT EXISTS Access_times(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT,
             FORIGN_KEY email REFERENCES username, login_ip TEXT)''')
 sql_stmt = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
 sql_stmt = str(sql_stmt)
+def email_generate():
+    return "[!!] Work in progress, sorry! [!!]"
 
 def name_generate():
     digest_name = "INSERT INTO Site_Info(username, password) VALUES ('%s', '%s')"
@@ -86,6 +89,6 @@ c.close()
 
 resource = File('./wwwroot')
 factory = Site(resource)
-endpoint = endpoints.TCP4Server(reactor, 8888)
+endpoint = endpoints.TCP4ServerEndpoint(reactor, 8888)
 endpoint.listen(factory)
 reactor.run()
