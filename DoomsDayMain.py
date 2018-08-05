@@ -3,6 +3,7 @@
 try:
     import sqlite3
     import names
+    from faker import Faker
     import hashlib
     from twisted.web.server import Site
     from twisted.web.static import File
@@ -10,6 +11,7 @@ try:
     from twisted.internet import endpoints
     import os
     from time import sleep
+    from time import time
     from random import randint
 except ImportError as e:
     print(
@@ -47,10 +49,16 @@ sql_stmt = str(sql_stmt)
 
 def name_generate(num):
     digest_name = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
-    accessed_table = "INSERT INTO Access_times(login_ip) VALUES ('%s')"
+    accessed_table = "INSERT INTO Access_times(login_ip, Accessed_Last) VALUES ('%s', '%s')"
     namer = set()
+    current_time = time()
     for i in range(num):
         name = names.get_full_name()
+        faker = Faker()
+
+        access_time = randint(1501942129, int(current_time))
+        ip_addr = faker.ipv4()
+        lice = str(ip_addr)
         ename = name.lower()
         ename = ename.split(' ')
         email = email_generate(ename[0], ename[1])
@@ -63,7 +71,7 @@ def name_generate(num):
         style = name.encode()
         hashed_pass = hashlib.sha512(style).hexdigest()
         c.execute(digest_name % (name, email, hashed_pass))
-        c.execute(accessed_table % (lice))
+        c.execute(accessed_table % (lice, access_time))
         database.commit()
 
 
