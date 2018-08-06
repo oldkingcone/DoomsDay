@@ -1,6 +1,7 @@
 # decided to go with twisted, much more easy to work with.
 
 try:
+    import email_chooser
     from faker import Faker
     import sqlite3
     import names
@@ -17,50 +18,7 @@ except ImportError as e:
         "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the app again. \n {}".format(e))
     import sys
     sys.exit(1)
-#-----------------------------------------------------------------------------------------------------------------------------
-# will make this more interactive, may use a class here.    
-domains_list = ["gmail.com",
-                "yahoo.com",
-                "yandex.com",
-                "protonmail.com",
-                "hotmail.com",
-                "1and1.com",
-                "mail.com",
-                "inbox.com",
-                "aol.com",
-                "outlook.com",
-                "icloud.com",
-                "office365.com",
-                "zoho.mail",
-                "hushmail.com",
-                "fastmail.com",
-                "gmxmail.com"]
-print("[!!] Using Domain list for email generation:\n {} [**]".format(domains_list))
-sleep(3)
-words = ["barbie",
-         "rocker",
-         "diamond",
-         "leet",
-         "beer",
-         "rockstar",
-         "bulleit",
-         "moon",
-         "draught",
-         "tanaka",
-         "yankee",
-         "aviator",
-         "queen",
-         "cocktail",
-         "absolute",
-         "mountain",
-         "light",
-         "yankee",
-         "beef"
-         ]
-#----------------------------------------------------------------------------------------------------------------------------
-os.system('clear')
-print("[!!] Using pre-seeded word list: \n{} [!!]".format(words))
-sleep(3)
+
 try:
     print("[**] Making falsified www root directory [**]")
     os.system("mkdir ./wwwroot")
@@ -83,11 +41,12 @@ sql_stmt = str(sql_stmt)
 def email_generate():
     return "[!!] Work in progress, sorry! [!!]"
 
-def name_generate():
+def name_generate(length):
     digest_name = "INSERT INTO Site_Info(username, password) VALUES ('%s', '%s')"
     accessed_table = "INSERT INTO Access_times(login_ip) VALUES ('%s')"
     namer = set()
-    for i in range(100):
+    #namer.add(email_chooser(
+    for i in range(length):
         faker = Faker()
         ip_addr = faker.ipv4()
         lice = str(ip_addr)
@@ -101,7 +60,7 @@ def name_generate():
         database.commit()
 
 
-name_generate()
+name_generate(length)
 c.close()
 
 
