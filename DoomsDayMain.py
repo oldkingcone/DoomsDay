@@ -1,6 +1,8 @@
 # decided to go with twisted, much more easy to work with.
 
 try:
+    import itertools
+    import random
     import email_chooser
     from faker import Faker
     import sqlite3
@@ -38,23 +40,24 @@ def email_generate():
     return "[!!] Work in progress, sorry! [!!]"
 
 def name_generate(length):
-    ip_net = set()
-    digest_name = "INSERT INTO Site_Info(username, password) VALUES ('%s', '%s')"
+    ip_net = list()
+    digest_name = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
     accessed_table = "INSERT INTO Access_times(login_ip) VALUES ('%s')"
-    email_gend = set()
-    fake_names = set()
-    email_gend.add(email_chooser(genEmail(length)))
+    fake_names = list()
     for i in range(length):
         faker = Faker()
         ip_addr = faker.ipv4()
-        ip_net.add(str(ip_addr))
+        ip_net.append(str(ip_addr))
         name = names.get_full_name()
-        styled_names = name.encode()
-        fake_names.add(str(styled_names))
-        hashed_pass = hashlib.sha512(style).hexdigest()
-        c.execute(digest_name % (name, hashed_pass))
-        c.execute(accessed_table % (lice))
-        database.commit()
+        styled_names = name.encode('utf-8')
+        fake_names.append(styled_names)
+    for (emails, fakes, ips) in itertools.zip_longest(email_chooser.genEmail(length), fake_names, ip_net):
+        hashed_pass = hashlib.sha1(fakes).hexdigest()
+        print('{} \n {} \n {}\n {}\n'.format(emails, fakes, ips, hashed_pass))
+        fake = fakes.decode()
+        c.execute(digest_name % (fake, emails, hashed_pass))
+        c.execute(accessed_table % (ips))
+    database.commit()
 #while alcohol == true: break
 length = random.randint(100, 400)
 name_generate(length)
@@ -63,8 +66,8 @@ c.close()
 
 #@todo set up on connection recieved, so we are not hogging precious system resources.
 
-resource = File('./wwwroot')
-factory = Site(resource)
-endpoint = endpoints.TCP4ServerEndpoint(reactor, 8888)
-endpoint.listen(factory)
-reactor.run()
+# resource = File('./wwwroot')
+# factory = Site(resource)
+# endpoint = endpoints.TCP4ServerEndpoint(reactor, 8888)
+# endpoint.listen(factory)
+# reactor.run()
