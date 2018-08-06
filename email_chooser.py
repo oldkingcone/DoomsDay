@@ -2,22 +2,22 @@ import random
 
 #-----------------------------------------------------------------------------------------------------------------------------
 # will make this more interactive, may use a class here.    
-domains_list = ["gmail.com",
-                "yahoo.com",
-                "yandex.com",
-                "protonmail.com",
-                "hotmail.com",
-                "1and1.com",
-                "mail.com",
-                "inbox.com",
-                "aol.com",
-                "outlook.com",
-                "icloud.com",
-                "office365.com",
-                "zoho.mail",
-                "hushmail.com",
-                "fastmail.com",
-                "gmxmail.com"]
+domains_list = ["@gmail.com",
+                "@yahoo.com",
+                "@yandex.com",
+                "@protonmail.com",
+                "@hotmail.com",
+                "@1and1.com",
+                "@mail.com",
+                "@inbox.com",
+                "@aol.com",
+                "@outlook.com",
+                "@icloud.com",
+                "@office365.com",
+                "@zoho.mail",
+                "@hushmail.com",
+                "@fastmail.com",
+                "@gmxmail.com"]
 words = ["barbie",
          "rocker",
          "diamond",
@@ -43,7 +43,7 @@ words = ["barbie",
 def genEmail(iteration):
     email_list = list()
     while iteration != 0:
-        email = random.choice(words) + random.choice(words) + '@' + random.choice(domains_list)
+        email = random.choice(words) + random.choice(words) + random.choice(domains_list)
         email_list.append(email)
         iteration -= 1
     return email_list
