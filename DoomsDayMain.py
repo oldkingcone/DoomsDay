@@ -34,8 +34,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS Site_Info(id INTEGER PRIMARY KEY AUTOINC
                 username TEXT, email TEXT, password TEXT)''')
 c.execute('''CREATE TABLE IF NOT EXISTS Access_times(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT,
             FORIGN_KEY email REFERENCES username, login_ip TEXT)''')
-sql_stmt = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
-sql_stmt = str(sql_stmt)
+
 def email_generate():
     return "[!!] Work in progress, sorry! [!!]"
 
