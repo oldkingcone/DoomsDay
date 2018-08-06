@@ -35,9 +35,6 @@ c.execute('''CREATE TABLE IF NOT EXISTS Site_Info(id INTEGER PRIMARY KEY AUTOINC
 c.execute('''CREATE TABLE IF NOT EXISTS Access_times(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT,
             FORIGN_KEY email REFERENCES username, login_ip TEXT)''')
 
-def email_generate():
-    return "[!!] Work in progress, sorry! [!!]"
-
 def name_generate(length):
     ip_net = list()
     digest_name = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
