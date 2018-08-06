@@ -18,6 +18,7 @@ domains_list = ["@gmail.com",
                 "@hushmail.com",
                 "@fastmail.com",
                 "@gmxmail.com"]
+# set up this word list from my phone in a bar, so pardon the liquor names in there.
 words = ["barbie",
          "rocker",
          "diamond",
