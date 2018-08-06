@@ -39,10 +39,11 @@ words = ["barbie",
          "beef"
          ]
 #---------------------------------------------------------
-
+# need to expand the list. big time.lots of repeats for words in the emails.
 def genEmail(iteration):
-    email_list = set()
-    for i in range(iteration):
+    email_list = list()
+    while iteration != 0:
         email = random.choice(words) + random.choice(words) + '@' + random.choice(domains_list)
-        email_list.add(email)
+        email_list.append(email)
+        iteration -= 1
     return email_list
