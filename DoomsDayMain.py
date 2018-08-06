@@ -19,13 +19,9 @@ except ImportError as e:
     import sys
     sys.exit(1)
 
-try:
-    print("[**] Making falsified www root directory [**]")
-    os.system("mkdir ./wwwroot")
+print("[**] Making falsified www root directory [**]")
+if os.system("mkdir ./wwwroot") == FileExistsError or os.system("mkdir ./wwwroot") != FileExistsError: 
     os.system("cd ./wwwroot")
-except FileExistsError:
-    print("[!!] Folder Exists, skipping for now [!!]")
-    pass
 
 database = sqlite3.connect('./wwwroot/admin_databse.sqlite')
 c = database.cursor()
