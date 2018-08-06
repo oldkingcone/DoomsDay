@@ -42,23 +42,24 @@ def email_generate():
     return "[!!] Work in progress, sorry! [!!]"
 
 def name_generate(length):
+    ip_net = set()
     digest_name = "INSERT INTO Site_Info(username, password) VALUES ('%s', '%s')"
     accessed_table = "INSERT INTO Access_times(login_ip) VALUES ('%s')"
-    namer = set()
-    #namer.add(email_chooser(
+    email_gend = set()
+    fake_names = set()
+    email_gend.add(email_chooser(genEmail(length)))
     for i in range(length):
         faker = Faker()
         ip_addr = faker.ipv4()
-        lice = str(ip_addr)
+        ip_net.add(str(ip_addr))
         name = names.get_full_name()
-        namer.add(name)
-        database.commit()
-        style = name.encode()
+        styled_names = name.encode()
+        fake_names.add(str(styled_names))
         hashed_pass = hashlib.sha512(style).hexdigest()
         c.execute(digest_name % (name, hashed_pass))
         c.execute(accessed_table % (lice))
         database.commit()
-
+#while alcohol == true: break
 
 name_generate(length)
 c.close()
