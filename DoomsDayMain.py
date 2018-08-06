@@ -40,7 +40,22 @@ sleep(3)
 words = ["barbie",
          "rocker",
          "diamond",
-         "leet"
+         "leet",
+         "beer",
+         "rockstar",
+         "bulleit",
+         "moon",
+         "draught",
+         "tanaka",
+         "yankee",
+         "aviator",
+         "queen",
+         "cocktail",
+         "absolute",
+         "mountain",
+         "light",
+         "yankee",
+         "beef"
          ]
 #----------------------------------------------------------------------------------------------------------------------------
 os.system('clear')
