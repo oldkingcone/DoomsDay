@@ -60,7 +60,7 @@ def name_generate(length):
         c.execute(accessed_table % (lice))
         database.commit()
 #while alcohol == true: break
-
+length = random.randint(100, 400)
 name_generate(length)
 c.close()
 
