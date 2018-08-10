@@ -21,7 +21,8 @@ domains_list = ["@gmail.com",
 # set up this word list from my phone in a bar, so pardon the liquor names in there.
 
 #---------------------------------------------------------
-# need to expand the list. big time.lots of repeats for words in the emails.
+# Current list of fake users is about 5000.
+
 def genEmail(iteration):
     email_list = list()
     while iteration != 0:
