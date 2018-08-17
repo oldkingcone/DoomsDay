@@ -102,3 +102,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.idea/workspace.xml
+.idea/DoomsDay.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+docker-compose.yml
+docker-compose.yml
+Dockerfile
+docker-compose.yml

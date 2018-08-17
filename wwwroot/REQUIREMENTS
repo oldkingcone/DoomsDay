@@ -1,0 +1,5 @@
+Docker==2.4.2
+Docker-ipsec
+twisted>=18.7.0
+names
+faker
