@@ -61,7 +61,7 @@ c.close()
 
 
 #@todo set up on connection recieved, so we are not hogging precious system resources.
-# going to start working on tihs tomorrow at some point. Yall be patient.
+# going to start working on this tomorrow at some point. Yall be patient.
 
 
 # resource = File('./wwwroot')
