@@ -10,4 +10,4 @@ domains_list = [domain.rstrip('\n') for domain in open('domains.txt')]
 # Current list of fake users is about 5000.
 
 def genEmail(length):
-    return [random.choice(user) + random.choice(domains_list) for _ in range(length)]
+    return [random.choice(users) + random.choice(domains_list) for _ in range(length)]
