@@ -1,32 +1,13 @@
 import random
 from usernames import users
 #-----------------------------------------------------------------------------------------------------------------------------
-# will make this more interactive, may use a class here.    
-domains_list = ["@gmail.com",
-                "@yahoo.com",
-                "@yandex.com",
-                "@protonmail.com",
-                "@hotmail.com",
-                "@1and1.com",
-                "@mail.com",
-                "@inbox.com",
-                "@aol.com",
-                "@outlook.com",
-                "@icloud.com",
-                "@office365.com",
-                "@zoho.mail",
-                "@hushmail.com",
-                "@fastmail.com",
-                "@gmxmail.com"]
+# TODO: will make this more interactive, may use a class here.
+# TODO: May use generator here...
+domains_list = [domain.rstrip('\n') for domain in open('domains.txt')]
 # set up this word list from my phone in a bar, so pardon the liquor names in there.
 
 #---------------------------------------------------------
 # Current list of fake users is about 5000.
 
-def genEmail(iteration):
-    email_list = list()
-    while iteration != 0:
-        email = random.choice(users) + random.choice(domains_list)
-        email_list.append(email)
-        iteration -= 1
-    return email_list
+def genEmail(length):
+    return [random.choice(user) + random.choice(domains_list) for _ in range(length)]
