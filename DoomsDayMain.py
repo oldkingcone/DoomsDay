@@ -12,6 +12,8 @@ try:
     from twisted.web.static import File
     from twisted.internet import reactor
     from twisted.internet import endpoints
+    from twisted.internet.protocol import Factory, Protocol
+    from twisted.internet.endpoints import TCP4ServerEndpoint
     import os
     from time import sleep
     from random import randint
@@ -49,7 +51,7 @@ def name_generate(length):
         fake_names.append(styled_names)
     for (emails, fakes, ips) in itertools.zip_longest(email_chooser.genEmail(length), fake_names, ip_net):
         hashed_pass = hashlib.sha1(fakes).hexdigest()
-        print('{} \n {} \n {}\n {}\n'.format(emails, fakes, ips, hashed_pass))
+        print('[**] {} \n {} \n {}\n {}\n [**]'.format(emails, fakes, ips, hashed_pass))
         fake = fakes.decode()
         c.execute(digest_name % (fake, emails, hashed_pass))
         c.execute(accessed_table % (ips))
@@ -63,9 +65,23 @@ c.close()
 #@todo set up on connection recieved, so we are not hogging precious system resources.
 # going to start working on this tomorrow at some point. Yall be patient.
 
-
+class QOTD(Protocol):
+    #@todo This is designed as a small piece of SE. Makes the system seem more juicy, tailor as needed.
+    # Will refine this when I have more time, currently in an Airport.
+    def connection_made(self):
+        self.transport.write("\nFor Official Use Only (FOUO) is a document designation, not a classification. "
+                             "This designation is used by Department of Defense and a number of other federal agencies "
+                             "to identify information or material which, although unclassified, may not be appropriate "
+                             "for public release. In all cases the designations refer to unclassified, sensitive "
+                             "information that is or may be exempt from public release under the Freedom of Information"
+                             "Act. DoD Directive 5400.7 defines For Official Use Only information as unclassified "
+                             "information that may be exempt from mandatory release to the public under the Freedom of "
+                             "Information Act (FOIA). The policy is implemented by DoD Regulation 5400.7-R and 5200.1-R."
+                             "\n")
+        self.transport.loseConnection()
+# port_range = random.randint(8123,45950) # Using random port range, so things cannot be so easily finger printed.
 # resource = File('./wwwroot')
 # factory = Site(resource)
-# endpoint = endpoints.TCP4ServerEndpoint(reactor, 8888)
+# endpoint = endpoints.TCP4ServerEndpoint(reactor, port_range)
 # endpoint.listen(factory)
 # reactor.run()
