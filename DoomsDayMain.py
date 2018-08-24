@@ -78,10 +78,23 @@ class QOTD(Protocol):
                              "information that may be exempt from mandatory release to the public under the Freedom of "
                              "Information Act (FOIA). The policy is implemented by DoD Regulation 5400.7-R and 5200.1-R."
                              "\n")
+        #@Todo, Need to impliment a "Login" method.
+
         self.transport.loseConnection()
-# port_range = random.randint(8123,45950) # Using random port range, so things cannot be so easily finger printed.
-# resource = File('./wwwroot')
-# factory = Site(resource)
-# endpoint = endpoints.TCP4ServerEndpoint(reactor, port_range)
-# endpoint.listen(factory)
-# reactor.run()
+
+class QOTDFactory(Factory):
+    def buildProtocol(self, addr):
+        return QOTD()
+
+
+if __name__ == "__main__":
+    port_range = random.randint(8123,45950) # Using random port range, so things cannot be so easily finger printed.
+    print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(port_range))
+    endpoint = TCP4ServerEndpoint(reactor, port_range)
+    endpoint.listen(QOTDFactory())
+    reactor.run()
+    # resource = File('./wwwroot')
+    # factory = Site(resource)
+    # endpoint = endpoints.TCP4ServerEndpoint(reactor, port_range)
+    # endpoint.listen(factory)
+    # reactor.run()
