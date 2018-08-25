@@ -16,11 +16,21 @@ try:
     import os
     from time import sleep
     from random import randint
+    from json import load
+    from urllib2 import urlopen
 except ImportError as e:
     print(
         "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the app again. \n {}".format(e))
     import sys
     sys.exit(1)
+
+def selfIP():
+    my_ip = load(urlopen('http://httpbin.org/ip'))['origin']
+    return my_ip
+
+def randomPort():
+    port = random.randint(8123, 49975)
+    return port
 
 def name_generate(length):
     print("[**] Making falsified www root directory [**]")
@@ -70,6 +80,8 @@ class QOTD(Protocol):
         # I enjoy screwing with an attackers head as much as possible, so, this will show a different warning
         # on every connection, @todo will add a way to control that.
         stuff = ''
+        reader = ''
+        disclaimer = ''
         if stuff == '':
             choice = random.randint(1, 5)
             if choice == 1:
@@ -101,7 +113,7 @@ if __name__ == "__main__":
     queue = random.randint(100, 400)
     name_generate(queue)
     port_range = random.randint(8123, 45950)  # Using a random port range, so things cannot be so easily finger printed.
-    print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(port_range))
-    endpoint = TCP4ServerEndpoint(reactor, port_range)
-    endpoint.listen(QOTDFactory())
+    print("[!!]\n\tVERY IMPORTANT! This host was selected: {} \n Using this port Number: {} [!!]".format(selfIP(), randomPort()))
+    endpoint = TCP4ServerEndpoint(reactor, randomPort())
+    endpoint.listen(QOTDFactory(selfIP()))
     reactor.run()
