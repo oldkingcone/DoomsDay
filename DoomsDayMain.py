@@ -112,7 +112,6 @@ if __name__ == "__main__":
 
     queue = random.randint(100, 400)
     name_generate(queue)
-    port_range = random.randint(8123, 45950)  # Using a random port range, so things cannot be so easily finger printed.
     print("[!!]\n\tVERY IMPORTANT! This host was selected: {} \n Using this port Number: {} [!!]".format(selfIP(), randomPort()))
     endpoint = TCP4ServerEndpoint(reactor, randomPort())
     endpoint.listen(QOTDFactory(selfIP()))
