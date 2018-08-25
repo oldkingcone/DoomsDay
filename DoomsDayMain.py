@@ -1,5 +1,4 @@
 # decided to go with twisted, much more easy to work with.
-
 try:
     import itertools
     import random
@@ -23,21 +22,18 @@ except ImportError as e:
     import sys
     sys.exit(1)
 
-print("[**] Making falsified www root directory [**]")
-if os.system("mkdir ./wwwroot") == FileExistsError or os.system("mkdir ./wwwroot") != FileExistsError: 
-    os.system("cd ./wwwroot")
-
-database = sqlite3.connect('./wwwroot/admin_databse.sqlite')
-c = database.cursor()
-
-#@todo database is complete, just missing the email address generation.
-#@todo make a relational database, add some more hashes maybe sha1 and faked access times.
-c.execute('''CREATE TABLE IF NOT EXISTS Site_Info(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-                username TEXT, email TEXT, password TEXT)''')
-c.execute('''CREATE TABLE IF NOT EXISTS Access_times(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT,
-            FORIGN_KEY email REFERENCES username, login_ip TEXT)''')
-
 def name_generate(length):
+    print("[**] Making falsified www root directory [**]")
+    if os.system("mkdir ./wwwroot") == FileExistsError or os.system("mkdir ./wwwroot") != FileExistsError:
+        os.system("cd ./wwwroot")
+    database = sqlite3.connect('./wwwroot/admin_databse.sqlite')
+    c = database.cursor()
+    # @todo database is complete, just missing the email address generation.
+    # @todo make a relational database, add some more hashes maybe sha1 and faked access times.
+    c.execute('''CREATE TABLE IF NOT EXISTS Site_Info(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                    username TEXT, email TEXT, password TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS Access_times(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT,
+                FORIGN_KEY email REFERENCES username, login_ip TEXT)''')
     ip_net = list()
     digest_name = "INSERT INTO Site_Info(username, email, password) VALUES ('%s', '%s', '%s')"
     accessed_table = "INSERT INTO Access_times(login_ip) VALUES ('%s')"
@@ -56,45 +52,56 @@ def name_generate(length):
         c.execute(digest_name % (fake, emails, hashed_pass))
         c.execute(accessed_table % (ips))
     database.commit()
-#while alcohol == true: break
-length = random.randint(100, 400)
-name_generate(length)
-c.close()
+    c.close()
 
+# while alcohol == true: break
 
-#@todo set up on connection recieved, so we are not hogging precious system resources.
-# going to start working on this tomorrow at some point. Yall be patient.
+# @todo set up on connection received, so we are not hogging precious system resources. -!- done.
+# going to start working on this tomorrow at some point. Y'all be patient.
 
 class QOTD(Protocol):
-    #@todo This is designed as a small piece of SE. Makes the system seem more juicy, tailor as needed.
+
+    # @todo This is designed as a small piece of SE. Makes the system seem more juicy, tailor as needed.
     # Will refine this when I have more time, currently in an Airport.
+    # need to make a variable, for user input to a designated path, or default to the data directory for this. -!- done.
+    # @todo, need to make more of these, inside several files, and have a random choice be made to select the file(s).
     def connection_made(self):
-        self.transport.write("\nFor Official Use Only (FOUO) is a document designation, not a classification. "
-                             "This designation is used by Department of Defense and a number of other federal agencies "
-                             "to identify information or material which, although unclassified, may not be appropriate "
-                             "for public release. In all cases the designations refer to unclassified, sensitive "
-                             "information that is or may be exempt from public release under the Freedom of Information"
-                             "Act. DoD Directive 5400.7 defines For Official Use Only information as unclassified "
-                             "information that may be exempt from mandatory release to the public under the Freedom of "
-                             "Information Act (FOIA). The policy is implemented by DoD Regulation 5400.7-R and 5200.1-R."
-                             "\n")
-        #@Todo, Need to impliment a "Login" method.
+        # I added in the stuff variable with logic, because everyone has different needs.
+        # I enjoy screwing with an attackers head as much as possible, so, this will show a different warning
+        # on every connection, @todo will add a way to control that.
+        stuff = ''
+        if stuff == '':
+            choice = random.randint(1, 5)
+            if choice == 1:
+                disclaimer = open('data/fouo.txt', 'r')
+            reader = disclaimer.readlines()
+            disclaimer.close()
+        # This seems a bit buggy/hacky, will need to come back later and fix.
+        self.transport.write(reader)
+        # @Todo, Need to impliment a "Login" method.
+        # login method needs to be simple yet complex enough to fool even the most suspecting of attackers.
+        # Don't want to leave the bait entirely out in the open, but still leave the bait out in the open.
 
         self.transport.loseConnection()
 
 class QOTDFactory(Factory):
+
     def buildProtocol(self, addr):
+        # Writes warning out through chosen port and into the terminal, closes connection.
         return QOTD()
 
+    def fileProtocol(self, addr):
+        # chooses our generated spring loaded trap.
+        resource = File('./wwwroot')
+        factory = Site(resource)
+        return factory
 
 if __name__ == "__main__":
-    port_range = random.randint(8123,45950) # Using random port range, so things cannot be so easily finger printed.
+
+    queue = random.randint(100, 400)
+    name_generate(queue)
+    port_range = random.randint(8123, 45950)  # Using a random port range, so things cannot be so easily finger printed.
     print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(port_range))
     endpoint = TCP4ServerEndpoint(reactor, port_range)
     endpoint.listen(QOTDFactory())
     reactor.run()
-    # resource = File('./wwwroot')
-    # factory = Site(resource)
-    # endpoint = endpoints.TCP4ServerEndpoint(reactor, port_range)
-    # endpoint.listen(factory)
-    # reactor.run()
