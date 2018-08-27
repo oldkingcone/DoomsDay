@@ -18,12 +18,25 @@ try:
     from random import randint
     from json import load
     from urllib2 import urlopen
+    import docker
+    import crypt
+    import NotSudo
 except ImportError as e:
     print(
         "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the app again. \n {}".format(e))
     import sys
     sys.exit(1)
 
+def sudoCheck():
+    # Checks for a uid of 0, raises the custom error if a uid of 0 is not found.
+    # For security purposes, this will need to switch to a non root user for the rest of the process.
+    if os.getuid() != 0:
+        raise NotSudo("[**] You will need to run this script as a sudo user to utilize portions of this tool.")
+
+def createUser(name, username, password):
+    encPass = crypt.crypt(password, "22")
+    return os.system("useradd -p "+encPass+" -s " + "/bin/bash " + "-d " + "/home/" + username+ " -m "+ " -c \""+ name
+                     + "\"" + username)
 def selfIP():
     my_ip = load(urlopen('http://httpbin.org/ip'))['origin']
     return my_ip
@@ -109,10 +122,21 @@ class QOTDFactory(Factory):
         return factory
 
 if __name__ == "__main__":
-
+    sudoCheck()
+    name = str(input("[!] Please input a name for this account, this will be the fake root account. [!]\n->"))
+    username = str(input("[!] Please choose a username for this account [!]\n->"))
+    password = str(input("[!] Please enter a password for this account.[!]\n->"))
+    createUser(name=name, username=username, password=password)
     queue = random.randint(100, 400)
     name_generate(queue)
-    print("[!!]\n\tVERY IMPORTANT! This host was selected: {} \n Using this port Number: {} [!!]".format(selfIP(), randomPort()))
+    port_range = random.randint(8123, 45950)  # Using a random port range, so things cannot be so easily finger printed.
+    print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(randomPort()))
     endpoint = TCP4ServerEndpoint(reactor, randomPort())
     endpoint.listen(QOTDFactory(selfIP()))
     reactor.run()
+    # now time to work on docker.
+    # client = docker.from_env()
+    # client.containers.run("ubuntu:latest", "sleep infinity", detatch = True)
+    # @todo need to establish a falsified "root" group and user. -> done.
+    # @todo need to add check for root privs, then do a chroot/sudo su -l username (pref within the false user)
+    # ^ the above 2 are done, but need to be refined.
