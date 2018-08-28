@@ -128,8 +128,7 @@ if __name__ == "__main__":
     password = str(input("[!] Please enter a password for this account.[!]\n->"))
     createUser(name=name, username=username, password=password)
     queue = random.randint(100, 400)
-    name_generate(queue)
-    port_range = random.randint(8123, 45950)  # Using a random port range, so things cannot be so easily finger printed.
+    name_generate(queue) 
     print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(randomPort()))
     endpoint = TCP4ServerEndpoint(reactor, randomPort())
     endpoint.listen(QOTDFactory(selfIP()))
