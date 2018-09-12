@@ -129,7 +129,7 @@ if __name__ == "__main__":
     username = str(input("[!] Please choose a username for this account [!]\n->"))
     password = str(input("[!] Please enter a password for this account.[!]\n->"))
     createUser(name=name, username=username, password=password)
-    queue = random.randint(100, 400)
+    queue = random.randint(103, 476)
     name_generate(queue) 
     print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(randomPort()))
     endpoint = TCP4ServerEndpoint(reactor, randomPort())
