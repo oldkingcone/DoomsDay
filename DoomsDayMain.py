@@ -17,7 +17,7 @@ try:
     from time import sleep
     from random import randint
     from json import load
-    from urllib2 import urlopen
+    from urllib.request import urlopen
     import docker
     import crypt
     import NotSudo
