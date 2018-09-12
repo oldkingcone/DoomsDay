@@ -21,6 +21,7 @@ try:
     import docker
     import crypt
     import NotSudo
+    import docker_customize
 except ImportError as e:
     print(
         "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the app again. \n {}".format(e))
@@ -122,6 +123,7 @@ class QOTDFactory(Factory):
         return factory
 
 if __name__ == "__main__":
+    docker_customize.docker_customize()
     sudoCheck()
     name = str(input("[!] Please input a name for this account, this will be the fake root account. [!]\n->"))
     username = str(input("[!] Please choose a username for this account [!]\n->"))
