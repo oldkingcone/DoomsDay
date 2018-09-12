@@ -1,9 +1,9 @@
 FROM ubuntu:latest
 MAINTAINER oldkingcone(Iamroot)
 RUN apt-get update -y
-RUN apt-get install -y python3-pip python3-dev build-essential apache aespipe
+RUN apt-get install -y python3-pip python3-dev build-essential apache2 aespipe
 RUN service apache2 start
-COPY ./app
+COPY . ./app
 WORKDIR /app
 RUN pip3 install -r REQUIREMENTS
 ENTRYPOINT ["python3"]

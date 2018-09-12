@@ -3,3 +3,4 @@ Docker-ipsec
 twisted>=18.7.0
 names
 faker
+twitter_scraper
