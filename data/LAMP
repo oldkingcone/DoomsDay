@@ -1,0 +1,11 @@
+FROM ubuntu:latest
+MAINTAINER oldkingcone(Iamroot)
+RUN apt-get update -y
+RUN apt-get install -y python3-pip python3-dev build-essential apache2 aespipe mysql php7
+RUN service apache2 start
+RUN service mysql start
+COPY ./app
+WORKDIR /app
+RUN pip3 install -r REQUIREMENTS --user
+ENTRYPOINT ["python3"]
+CMD ["DoomsDayMain.py"]
