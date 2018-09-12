@@ -36,7 +36,7 @@ def sudoCheck():
 
 def createUser(name, username, password):
     encPass = crypt.crypt(password, "22")
-    return os.system("useradd -p "+encPass+" -s " + "/bin/bash " + "-d " + "/home/" + username+ " -m "+ " -c \""+ name
+    return os.system("useradd -p "+encPass+" -s " + "/bin/bash " + "-d " + "/home/" + username+ " -m "+ " -c \""+ name \
                      + "\"" + username)
 def selfIP():
     my_ip = load(urlopen('http://httpbin.org/ip'))['origin']
