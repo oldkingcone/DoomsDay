@@ -29,6 +29,6 @@ def docker_customize():
                 magic.close()
                 docker_file.writelines(''.join(mike))
                 x = 'f'
-            if stack == 3:
+            if stack == 3 or selection == 'n':
                 print(Fore.WHITE+Back.RED+"[**] No changes will be made to docker file, continuing! [**]")
                 x = 'f'
