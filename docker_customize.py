@@ -5,7 +5,7 @@ except ImportError as e:
 init(autoreset=True)
 def docker_customize():
     x = 't'
-    selection = str(input(Fore.WHITE+Back.ORANGE+"[ ?? ] Would you like to customize the docker container? [ ?? ] \n->")).lower()
+    selection = str(input(Fore.WHITE+Back.ORANGE+"[ ?? ] Would you like to customize the docker container? [ ?? ] \n(y/n) ->")).lower()
     if selection == 'y':
         docker_file = open('./Dockerfile', 'w')
         while x == 't':
