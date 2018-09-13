@@ -38,9 +38,6 @@ def createUser(name, username, password):
     encPass = crypt.crypt(password, "22")
     return os.system("useradd -p "+encPass+" -s " + "/bin/bash " + "-d " + "/home/" + username+ " -m "+ " -c \""+ name \
                      + "\"" + username)
-def selfIP():
-    my_ip = load(urlopen('http://httpbin.org/ip'))['origin']
-    return my_ip
 
 def randomPort():
     port = random.randint(8123, 49975)
@@ -133,7 +130,7 @@ if __name__ == "__main__":
     name_generate(queue) 
     print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(randomPort()))
     endpoint = TCP4ServerEndpoint(reactor, randomPort())
-    endpoint.listen(QOTDFactory(selfIP()))
+    endpoint.listen(QOTDFactory())
     reactor.run()
     # now time to work on docker.
     # client = docker.from_env()
