@@ -12,7 +12,7 @@ def docker_customize():
             stack = str(input(Fore.WHITE+Back.YELLOW+"[ ?? ] Which stack would you like to choose?\n"
                               "( 1 ) LAMP\n"
                               "( 2 ) MEAN\n"
-                              "( 3 ) Original Setting[Installs Apache2 and Python3)"))
+                              "( 3 ) Original Setting[Installs Apache2 and Python3) [ ?? ]\n->"))
             if stack == 1:
                 print(Fore.WHITE+Back.GREEN+"[*] Sticking with original OS, feel free to change this line,\n"
                       "FROM ubuntu:latest, to customize down to the OS of the container.")
