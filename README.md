@@ -8,6 +8,7 @@ Attackers are then isolated away from the host system in a nullFS style system i
 # Honey Do List:
 - Create Function to spin up docker container upon calling of the script.
 - Cloak the presence of the docker container.
+- Port Forwarding to the container( updating to python3 version in progress.)
 - Simulate admin activity within the container.
 - Simulate traffic to and from the container.
 
