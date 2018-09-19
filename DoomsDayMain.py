@@ -22,9 +22,10 @@ try:
     import crypt
     import NotSudo
     import docker_customize
+    import port_forward
 except ImportError as e:
     print(
-        "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the app again. \n {}".format(e))
+        "Sorry... Something went wrong, try running pip install -r REQUIREMENTS and run the script again. \n {}".format(e))
     import sys
     sys.exit(1)
 
@@ -38,6 +39,9 @@ def createUser(name, username, password):
     encPass = crypt.crypt(password, "22")
     return os.system("useradd -p "+encPass+" -s " + "/bin/bash " + "-d " + "/home/" + username+ " -m "+ " -c \""+ name \
                      + "\"" + username)
+def selfIP():
+    my_ip = load(urlopen('http://httpbin.org/ip'))['origin']
+    return my_ip
 
 def randomPort():
     port = random.randint(8123, 49975)
@@ -120,21 +124,29 @@ class QOTDFactory(Factory):
         return factory
 
 if __name__ == "__main__":
-    docker_customize.docker_customize()
-    sudoCheck()
-    name = str(input("[!] Please input a name for this account, this will be the fake root account. [!]\n->"))
-    username = str(input("[!] Please choose a username for this account [!]\n->"))
-    password = str(input("[!] Please enter a password for this account.[!]\n->"))
-    createUser(name=name, username=username, password=password)
-    queue = random.randint(103, 476)
-    name_generate(queue) 
-    print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(randomPort()))
-    endpoint = TCP4ServerEndpoint(reactor, randomPort())
-    endpoint.listen(QOTDFactory())
-    reactor.run()
-    # now time to work on docker.
-    # client = docker.from_env()
-    # client.containers.run("ubuntu:latest", "sleep infinity", detatch = True)
-    # @todo need to establish a falsified "root" group and user. -> done.
-    # @todo need to add check for root privs, then do a chroot/sudo su -l username (pref within the false user)
-    # ^ the above 2 are done, but need to be refined.
+    try:
+        run = 0
+        if run == 0:
+            run = 1
+            port_forward()
+            docker_customize.docker_customize()
+            sudoCheck()
+            name = str(input("[!] Please input a name for this account, this will be the fake root account. [!]\n->"))
+            username = str(input("[!] Please choose a username for this account [!]\n->"))
+            password = str(input("[!] Please enter a password for this account.[!]\n->"))
+            createUser(name=name, username=username, password=password)
+            queue = random.randint(103, 476)
+            name_generate(queue)
+        print("[!!]\n\tVERY IMPORTANT! This port was selected: {} [!!]".format(randomPort()))
+        endpoint = TCP4ServerEndpoint(reactor, randomPort())
+        endpoint.listen(QOTDFactory(selfIP()))
+        reactor.run()
+        # now time to work on docker.
+        # client = docker.from_env()
+        # client.containers.run("ubuntu:latest", "sleep infinity", detatch = True)
+        # @todo need to establish a falsified "root" group and user. -> done.
+        # @todo need to add check for root privs, then do a chroot/sudo su -l username (pref within the false user)
+        # ^ the above 2 are done, but need to be refined.
+    except:
+        run = 0
+        raise
