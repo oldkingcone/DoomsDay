@@ -17,6 +17,6 @@ Attackers are then isolated away from the host system in a nullFS style system i
 As this script is still under development, it is greatly appriciated if you as a potential user of this wonderful program would report the issues you find here, so they can be fixed and make this program an amazing suppliment to your organizations security!  
 Thank you very much in advance.
 
-# Shout out Section:
+# Credits and Thank you:
 
-A HUGE thank you to those who have contributed to this project.
+A HUGE thank you to those who have contributed to this project. I love you for it, lets keep making this script and project better.
